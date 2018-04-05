@@ -17,3 +17,5 @@ Python Libraries required:
 -Scipy
 -Numpy
 -Keras
+
+Note: Place the SnC folder in project root in C drive of your computer. The project has executable build which will run only on system with jre 1.8.0_161.
