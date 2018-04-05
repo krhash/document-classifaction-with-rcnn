@@ -1,0 +1,491 @@
+A Seminar Report
+on
+IOT Based Prognostics and Systems Health Management
+for Industrial Applications
+by
+Krushna Sanjay Sharma
+Roll No:305265
+Under the guidance of
+Prof.N.S.Pharande
+Departnent of Computer engineering
+Sinhgad College of Engineering, Pune-41
+Accredited by NAAC with “A” grade
+Savitribai Phule Pune University
+2016-2017
+Sinhgad Technical Education Society,
+Department of Computer Engineering
+Sinhgad College of Engineering,Pune-41
+Date:
+CERTIFICATE
+This is to certify that Mr. Krushna Sanjay Sharma has successfully completed his semi-
+nar work titled “IoT BASED PROGNOSTICS AND SYSTEMS HEALTH MANAGE-
+MENT” at Department of Computer Engineering, SCOE, Pune for the partial fulfillment
+of the Bachelor Degree of Computer Engineering , Savitribai Phule Pune University, in
+semester-II, academic Year 2016-2017.
+Prof. N.S. Pharande Prof. M.P. Wankhade
+Internal Guide Head of Department
+Department of Computer Engineering
+Dr. S.D. Lokhande
+Principal
+Sinhgad College of Engineering
+Abstract
+Prognostics and systems health management (PHM) is an enabling discipline that uses sen-
+sors to assess the health of systems, diagnoses anomalous behavior, and predicts the re-
+maining useful performance over the life of the asset. The advent of the Internet of Things
+(IoT) enables PHM to be applied to all types of assets across all sectors, thereby creating a
+paradigm shift that is opening up significant new business opportunities. This paper intro-
+duces the concepts of PHM and discusses the opportunities provided by the IoT. Develop-
+ments are illustrated with examples of innovations from manufacturing, consumer products,
+and infrastructure. From this review, a number of challenges that result from the rapid adop-
+tion of IoT-based PHM are identified. These include appropriate analytics, security, IoT
+platforms, sensor energy harvesting, IoT business models, and licensing approaches.
+3
+Acknowledgment
+Working on this seminar is one of the wonderful and existing experiences in my life. This
+seminar not only bears the testimony of existing efforts but also reflects the cooperation,
+help and guidance, which I received time to time. It is obvious but that we acknowledge
+them for their help without which the seminar would never have been completed.
+I would like to express my deep gratitude to Prof. N.S. Pharande for her profound guid-
+ance and support which helped me understanding the nuances of the seminar work. I am
+thankful to her for her timely suggestions which helped me a lot in completion of this report.
+My heart felt thankful for our Head of Department Prof. M.P. Wankhade who has been a
+consistent motivator throughout the project.
+I would also like to thank the teaching and non teaching staff who have helped me all time
+in one way or the other.
+Lastly, and the most important, I extend my thanking to my parents and friends who have
+constantly guided and motivated me to accomplish the task successfully.
+Signature
+Krushna Sanjay Sharma
+4
+List of Tables
+2.1 Comparison Of Prognostics Techniques . . . . . . . . . . . . . . . . . . . 7
+5
+List of Figures
+3.1 Dimensions Of PHM . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9
+3.2 PoF-Based Approach . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+3.3 Fusion PHM Methodology . . . . . . . . . . . . . . . . . . . . . . . . . . 13
+3.4 Technology stack for supporting IoT . . . . . . . . . . . . . . . . . . . . . 14
+3.5 Conceptual Representation of Smart Ships . . . . . . . . . . . . . . . . . . 15
+6
+Acronyms
+PHM Prognostics and Health Management
+IoT Internet of Things
+MEMS Micro Electronic Mechanical Systems
+RFID Radio Frequency Identification
+CBM Condition-Based Maintenance
+RUL Remaining Useful Life
+PoF Physics of Failure
+FMMEA
+Failure Modes, Mechanisms, and Effects Anal-
+ysis
+TTF Time to Failure
+MRO Maintenance, Repair and Operations
+IVHM Integrated Vehicle Health Management
+7
+Contents
+Abstract 3
+Acknowledgement 4
+Acknowledgment 4
+List of Tables 5
+List of Figures 6
+Acronyms 7
+1 Introduction 1
+1.1 Motivation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2
+1.2 Evoloution/Timelline . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2
+1.3 Organization of Report . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+2 Literature Review 6
+2.1 Fundamentals . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+2.2 Related Work . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+2.3 Conclusion of Survey . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+3 Methodology 9
+3.1 Overview of Prognostics ans systems health managemnt (PHM) . . . . . . 9
+3.2 PHM Methodologies . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 11
+3.2.1 Physics-Of-Failure (PoF) Approaches . . . . . . . . . . . . . . . . 11
+3.2.2 Data-Driven Approaches . . . . . . . . . . . . . . . . . . . . . . . 12
+3.2.3 Fusion (PoF-Based/Data-Driven Hybrid) Approaches . . . . . . . . 13
+3.3 Technology Stack For IoT-Based PHM . . . . . . . . . . . . . . . . . . . . 14
+3.4 IoT-Based PHM for Industrial Applications . . . . . . . . . . . . . . . . . 15
+3.5 Mathematical Model . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 16
+4 Discussion of Results 17
+5 Conclusion and Future work 18
+References 20
+8
+Chapter 1
+Introduction
+Reliability is the ability of an asset to perform under expected performance requirements for
+a specified period of time in field use conditions. Customers expect their purchases to be
+reliable, and reliability influences their willingness to pay. Manufacturers need to balance
+customer expectations and profit expectations by designing for reliability and quality goals.
+The direct costs and reputation loss caused by poor asset reliability can significantly impact
+organizational performance. The ability to predict an asset’s reliability is therefore a core
+capaility.
+This organizational capability is enabled by appropriate prognostics and systems health
+management (PHM) practices. PHP originates the idea that the health of assets can be
+determined and the reliability (and remaining useful performance over the life of the asset)
+predicted with the aid of in situ sensing. PHM methodologies are based on several key
+elements in which sensors provide the capability of monitoring failure precursors and envi-
+ronmental loading conditions.
+These sensors are used to collect data about various attributes such as temperature, pressure,
+vibration, etc. about an asset. Sensors hard-wired to industrial control systems aid in assess-
+ing operational performance. However, developments in the IOT offer a new paradigm in
+which sensor data is streamed wirelessly from ”things”, which may be systems, sub-systems,
+or assets, to remote servers in the cloud. In this way, all data relevant to health estimation
+is available for prognostics and health monitoring.This availability (sharing) of information
+across platforms and assets provides a complete operating picture of different systems and
+enables flexibility to assess and manage new and previously unknown risks.
+1
+1.1 Motivation
+Manufacturers need to manage health of industrial assets (machines and products) in order to
+ensure delivery of products which are reliable and fulfill some quality standards. Most of the
+industries use hard-wired sensors with control systems and then technicians are supposed to
+collect data from each system. However, this method of data collection becomes tedious as
+the number of systems keep growing. IOT is a platform which enables real-time monitoring
+of such systems and stores data over some cloud based server. This would greatly reduce
+the time and efforts required for system health monitoring and prognostics.
+1.2 Evoloution/Timelline
+The Internet of things (stylised Internet of Things or IoT) is the internetworking of physical
+devices, vehicles (also referred to as ”connected devices” and ”smart devices”), buildings,
+and other itemsembedded with electronics, software, sensors, actuators, and network con-
+nectivity that enable these objects to collect and exchange data.In 2013 the Global Standards
+Initiative on Internet of Things (IoT-GSI) defined the IoT as ”the infrastructure of the infor-
+mation society.” The IoT allows objects to be sensed and/or controlled remotely across exist-
+ing network infrastructure,creating opportunities for more direct integration of the physical
+world into computer-based systems, and resulting in improved efficiency, accuracy and eco-
+nomic benefit in addition to reduced human intervention.
+The concept of the Internet of things became popular in 1999, through the Auto-ID Center
+at MIT and related market-analysis publications.Radio-frequency identification (RFID) was
+seen by Kevin Ashton (one of the founders of the original Auto-ID Center) as a prerequisite
+for the Internet of things at that point. Ashton prefers the phrase ”Internet for Things.” If all
+objects and people in daily life were equipped with identifiers, computers could manage and
+inventory them.Besides using RFID, the tagging of things may be achieved through such
+technologies as near field communication, barcodes, QR codes and digital watermarking.
+As of 2016, the vision of the Internet of things has evolved due to a convergence of mul-
+tiple technologies, including ubiquitous wireless communication, real-time analytics, ma-
+chine learning, commodity sensors, and embedded systems. This means that the traditional
+fields of embedded systems, wireless sensor networks, control systems, automation (includ-
+ing home and building automation), and others all contribute to enabling the Internet of
+things(IoT).
+IoT frameworks might help support the interaction between ”things” and allow for more
+2
+complex structures like distributed computing and the development of distributed applica-
+tions. Currently, some IoT frameworks seem to focus on real time data logging solutions
+like Jasper Technologies, Inc. and Xively (formerly Cosm and before that Pachube), offering
+some basis to work with many ”things” and have them interact. Future developments might
+lead to specific software-development environments to create the software to work with the
+hardware used in the Internet of things. Companies are developing technology platforms
+to provide this type of functionality for the Internet of things. Newer platforms are be-
+ing developed, which add more intelligence. Foremost, IBM has announced cognitive IoT,
+which combines traditional IoT with machine intelligence and learning, contextual informa-
+tion, industry-specific models and even natural language processing. The XMPP Standards
+Foundation (XSF) is creating such a framework in a fully open standard that is neither tied
+to any company nor connected to any cloud services. This XMPP initiative is called Chatty
+Things. XMPP provides a set of needed building blocks and a proven distributed solution
+that can scale with high security levels.
+1. REST is a scalable architecture that allows things to communicate over Hypertext
+Transfer Protocol and is easily adopted for IoT applications to provide communication
+from a thing to a central web server.
+2. MQTT is a publish-subscribe architecture on top of TCP/IP which allows bi-directional
+communication between a thing and a MQTT broker.
+3. Short-range wireless
+• Bluetooth low energy (BLE) Specification providing a low power variant to
+classic Bluetooth with a comparable communication range.
+• Light-Fidelity (Li-Fi) Wireless communication technology similar to the Wi-Fi
+standard, but using visible light communication for increased bandwidth.
+• Near-field communication (NFC) Communication protocols enabling two elec-
+tronic devices to communicate within a 4 cm range.
+• QR codes and barcodes Machine-readable optical tags that store information
+about the item to which they are attached.
+3
+• Radio-frequency identification (RFID) Technology using electromagnetic fields
+to read data stored in tags embedded in other items.
+• Thread Network protocol based on the IEEE 802.15.4 standard, similar to Zig-
+Bee, providing IPv6 addressing.
+• Wi-Fi Widely used technology for local area networking based on the IEEE
+802.11 standard, where devices may communicate through a shared access point.
+• Wi-Fi Direct Variant of the Wi-Fi standard for peer-to-peer communication,
+eliminating the need for an access point.
+• Z-Wave Communication protocol providing short-range, low-latency data trans-
+fer at rates and power consumption lower than Wi-Fi. Used primarily for home
+automation.
+• ZigBee Communication protocols for personal area networking based on the
+IEEE 802.15.4 standard, providing low power consumption, low data rate, low
+cost, and high throughput.
+4. Medium-range wireless
+• HaLow Variant of the Wi-Fi standard providing extended range for low-power
+communication at a lower data rate.
+• LTE-Advanced High-speed communication specification for mobile networks.
+Provides enhancements to the LTE standard with extended coverage, higher through-
+put, and lower latency.
+5. Long-range wireless
+• Low-power wide-area networking (LPWAN) Wireless networks designed to
+allow long-range communication at a low data rate, reducing power and cost for
+transmission.
+4
+• Very small aperture terminal (VSAT) Satellite communication technology us-
+ing small dish antennas for narrowband and broadband data.
+6. Wired
+• Ethernet General purpose networking standard using twisted pair and fiber optic
+links in conjunction with hubs or switches.
+• Multimedia over Coax Alliance (MoCA) Specification enabling whole-home
+distribution of high definition video and content over existing coaxial cabling.
+• Power-line communication (PLC) Communication technology using electrical
+wiring to carry power and data. Specifications such as HomePlug utilize PLC for
+networking IoT devices.
+1.3 Organization of Report
+Chapter 01: Describes an overview of the Internet of things and basics of PHM along with
+its preliminary requirement. It explains motivation behind the research and Evolution that
+states how IOT has evolved till date along with similar technologies.
+Chapter 02: Describes different techniques used for PHM and also clarifies how IOT
+based prognostics is superior to other techniques.
+Chapter 03: Describes the Methodology of given topic, i.e. new Approach used in order to
+solve the challenge.It also gives description about the method, Performance parameters,
+System Architecture and way of implementation for IOT based prognostic techniques.
+Chapter 04: States the comparison of performance measure of Internet of things for PHM.
+Chapter 05: States the conclusion for the survey and also depicts areas in which future
+works related to the field of Internet of things for PHM is expected.
+5
+Chapter 2
+Literature Review
+2.1 Fundamentals
+PHM helps in monitoring health of systems and estimating their Remaining Useful Life
+(RUL). Different techniques for implementing PHM include:
+1. Evidence Based Prognostics / Condition Based monitoring
+2. Fault Analysis for PHM
+3. IOT Based PHM
+2.2 Related Work
+Condition-based maintenance (CBM) is a maintenance program that recommends mainte-
+nance decisions based on the information collected through condition monitoring. It consists
+of three main steps: data acquisition, data processing and maintenance decision-making.
+Diagnostics and prognostics are two important aspects of a CBM program. Research in the
+CBM area grows rapidly.[2]
+Fault (Physics of failure) based technique: This method can help online reliability evalua-
+tion under real environmental condition by the identification of potential failure mechanism
+and failure position for devices, products and systems, so as to establish the foundation of
+reliability assessment for new material, new structure and new product. Under the analysis
+of failure mechanism for electronic product, the FMMEA (Failure Modes, Mechanisms and
+Effects Analysis) is used to get the failure mode, mechanism and failure physics model for
+the potential fault site. Based on the simulation model derived from the parameters of prod-
+uct material, structure, processing technology and the analysis of stress, the life distribution
+for the potential fault can be got through damage analysis with physics-of-failure model.
+The PHM information derived can be used to maintain, prognostic and decision-making for
+electronic product to reduce the life cycle cost and enhance the availability.[3]
+6
+Table 2.1: Comparison Of Prognostics Techniques
+7
+2.3 Conclusion of Survey
+IOT Based Prognostics is superior to other methods as it provides real time data analysis
+and provides support for software solutions to be implemented for system load balancing.
+Condition Based Monitoring(CBM) can be incorporated with IoT Based PHM as CBM
+is used to collect data from sensors describing various attributes and performance measures
+of the system. IoT platform opens up scope of interconnecting various systems monitored
+by CBM and provide an visual description of performance of various systems and estimate
+their RUL.
+8
+Chapter 3
+Methodology
+3.1 Overview of Prognostics ans systems health managemnt (PHM)
+PHM can be an effective solution for detecting anomalies and faults, diagnosing failures,
+predicting residual (remaining) lifetimes, and estimating the reliability of assets. Some ex-
+amples of successful applications of PHM include electronics, rotating machinery, and linear
+assets such as transport, water, and electrical distribution. PHM consists of four dimensions:
+sensing, diagnosis, prognosis, and management as shown in Figure 3.1 below.
+Figure 3.1: Dimensions Of PHM [04]
+9
+Sensing enables anomaly detectability by selecting and appropriately locating sensors that
+provide the capability to collect a history of time-dependent degradation of materials or en-
+vironmental stresses. Anomalies do not necessarily indicate a failure. Changes in operating
+conditions, as well as asset performance degradation, can influence data to show anomalous
+behavior. However, even this type of anomaly information is valuable to asset management.
+Diagnosis extracts fault-related information from the sensor signals caused by anomalies in
+asset health. Anomalies may result from material degradation, as well as changes in use
+conditions. Diagnosis relates the signal anomalies to a failure mode(s), and identifies the
+quantity of damage that has occurred as a health indicator. The results from this anomaly
+diagnosis can provide advanced warnings of failure, referred to as failure precursors.
+PHM integrates component lifetime estimation and reliability prediction, enabling the reli-
+ability of an asset to be evaluated and providing the opportunity to manage the asset risk.
+A successful PHM execution relies on the selection of appropriate prognostic approaches.
+Currently, there are many prognostic techniques, and their usage must be tuned for each ap-
+plication. Prognostic methods can be classified by the following three approaches: physics-
+of-failure (PoF)- based, data-driven, and fusion.[04]
+10
+3.2 PHM Methodologies
+3.2.1 Physics-Of-Failure (PoF) Approaches
+A PoF approach uses knowledge of how things degrade and fail. This knowledge is based
+on physical laws linked with a mathematical model. As shown in Fig.3.2, the PoF approach
+requires understanding of the process by which physical, electrical, chemical, and mechan-
+ical stresses act on materials to induce failure. The procedure of conducting PHM using a
+PoF approach can be summarized in the following five steps :
+Step 1: Identify the critical failure mechanisms and failure sites using failure modes, mech-
+anisms, and effects analysis (FMMEA);
+Step 2: Monitor the life-cycle loads that may lead to performance or physical degradation
+and the associated asset responses;
+Step 3: Extract features from the variables that change in response to deterioration associ-
+ated with the failure mechanisms identified at Step 1;
+Step 4: Assess damage and calculate remaining life using the PoF models of the failure
+mechanisms; and,
+Step 5: Estimate uncertainty and predict the time-to-failure (TTF) as a distribution. [05]
+Figure 3.2: PoF-Based Approach [05]
+11
+3.2.2 Data-Driven Approaches
+Data-driven approaches use data analytics and machine learning to determine anomalies and
+make predictions about the reliability of assets based on internal and/or external covariates
+(also called endogenous and exogenous covariates). Internal covariates (e.g., temperature,
+vibration) are measured by sensors on the asset and are only present when the asset is operat-
+ing. External covariates (e.g., weather data) are present whether or not the asset is operating.
+The data-driven approach analyzes asset performance data based on a training database of
+internal and/or external covariates. This may be implemented either by obtaining data under
+healthy conditions or from data-mining techniques.
+Compared to PoF approaches, data-driven approaches do not necessarily need asset-specific
+information. Data-driven approaches can learn the behavior of the asset based on the data
+collected, and can be used to analyze intermittent faults by detecting changes in asset fea-
+tures. The approaches can also be used in complex assets with multiple and potentially
+competing failure modes as long as the asset exhibits repeatable behavior. In other words,
+the strength of data-driven approaches is their ability to transform high-dimensional noisy
+data into lower-dimensional information for diagnostic and prognostic decisions. However,
+data-driven approaches have some limitations, the main drawback being a reliance on his-
+torical data on the failure modes or mechanisms the analyst seeks to detect. This can be an
+issue especially when the consequence of failure is high.
+12
+3.2.3 Fusion (PoF-Based/Data-Driven Hybrid) Approaches
+The fusion approach shown in Fig. 4 combines the advantages from the PoF-based and
+data-driven approaches to allow better RUL prediction capability. This approach reduces
+the reliance on historical datasets and addresses the issue of previously unseen failure modes.
+In fusion PHM, the first step is to determine which variables to monitor. The variables
+consist of external covariates, including operational and environmental loads, as well as in-
+ternal covariates based on sensor data. The next step is to identify the features of these vari-
+ables. Then, in situ measurements and deviations from the features associated with healthy
+states are used to detect anomalous behavior.Once anomalies are detected, isolation tech-
+niques identify features that significantly contribute to the abnormal status. These features
+are further used as inputs of PoF models for RUL prediction. For the purpose of feature
+isolation, various data-mining and machine learning-based techniques (e.g., principal com-
+ponent analysis, mutual information-based feature selection, and support vector machine)
+can be employed.[06] Figure 3.3 depits working of Fusion PHM methodology.
+Figure 3.3: Fusion PHM Methodology [04]
+13
+3.3 Technology Stack For IoT-Based PHM
+The smart, connected elements of IoT require an appropriate technology infrastructure. This
+infrastructure is represented as a ”technology stack” and is shown in Fig. 3.4. A technology
+stack facilitates data exchange between the asset and the user, integrates data from business
+systems and external sources, serves as the platform for data storage and analytics, runs ap-
+plications, and safeguards access to assets and the data flowing to and from them. The lower
+half of the technology stack describes the elements associated with the asset. There are two
+parts - software and hardware. One of the evolutions currently underway is the addition of
+embedded sensors, RFID tags, and processors built into the asset. Collectively, this enables
+new data to be collected for PHM. This data needs to be transmitted, and therefore network
+connectivity, as shown in the central block, is a key feature of IoT. The data collected and
+transmitted has to be stored and processed in an efficient and interpretable way. This is in-
+creasingly being done using cloud computing services, represented by the top block in the
+technology stack. The user, shown at the top of the figure, includes people who access the
+results of the analysis as well as those involved in the development and maintenance of the
+technology stack elements and the models it supports.
+Figure 3.4: Technology stack for supporting IoT [04]
+14
+3.4 IoT-Based PHM for Industrial Applications
+IoT based PHM has been and will be implemented in following sectors of industries:
+1. Manufacturing
+2. Heavy Industry: Mobile Assets (Ships, aeroplanes, mining, construction, etc.)
+3. Energy generation
+4. Transportation and Logistics
+5. Infrastructure Assets (water, gas, electricity, etc.)
+6. Automobiles
+7. Robotics
+The ”smart” ships shown in Figure.3.5 are a good example of a value-added asset for heavy
+industry, whereby sensor information from the environment (e.g., sea waves, tidal currents,
+and winds), the ship itself (e.g., devices, modules, and systems), and other ships (e.g.,
+routes), are analyzed to provide the captain with the optimal (e.g., fast and economic) route
+information, maintenance plans, and safe fleet management.
+Figure 3.5: Conceptual Representation of Smart Ships [01]
+15
+3.5 Mathematical Model
+Let S be the system to implement IoT Based prognostics
+S ={....
+Let set of input I = I1, I2
+I1 = {Real time sensor data input}
+I2 = {Historical data}
+Let set of Functions F = {F1, F2, F3, F4}
+F1 = {Function to identify type of prognostic required — Data-Driven, PoF based, Fusion}
+F2 = {Function to process data and store relevent results.}
+F3 = {Function to estimate RUL and tune Load Balancing factors}
+F4 = {Function to provide visual representation of performance of system — Graphs, Charts}
+Let set of output O = {O1, O2}
+O1 = {Visual representation of RUL and system performance}
+O2 = {New balanced load for system based on data analysis}
+Success = {
+• Prognostics done accurately and RUL calculated.
+• Load balancing successful.
+}
+Failure = {
+• Incorrect sensor data received
+• Load balance tuning incorrect
+}
+s = {I, O , F , Success, Failure}
+16
+Chapter 4
+Discussion of Results
+As the survey suggests, IoT platform is superior to all other prognostics techniques. It
+provides freatures like real time data collection, analysis which reduce assessment time and
+cost. Even though IoT based prognostics helps in proper assessment of health of industrial
+systems, there are certain challenges which we need to overcome during its implementation.
+Some of those challenges are:
+• Need of complex Analytics: Machine Learning and Data Mining.
+• Security (As data is analysed over cloud by remote users).
+• Need to develop new Business Models to incorporate IoT.
+• Energy harvesting - Sensors run on battery which depletes over time.
+IoT based PHM can be applied to various sectors of industry such as manufacturing, re-
+source management, etc. Besides industrial applications, it can be designed to work for
+various different sectors such as health care management.
+17
+Chapter 5
+Conclusion and Future work
+This report introduced the opportunities and challenges of IoT-based PHM for industrial
+applications. While this paper presented examples of companies successfully implement-
+ing IoT-based PHM, a major impediment is still the human capital to develop, validate, and
+maintain the models necessary for prognostics. These models require the engineering, statis-
+tics, and machine learning communities to work together. PHM requires the ability to link
+the anomalous patterns in the data to the failure modes and make connections to the under-
+lying physics of failure (e.g. the failure mechanisms). One of the challenges with big data is
+that given enough data, one will always be able to find relationships, also called ”spurious
+correlations”.
+To accelerate IoT-based PHM development, datasets on real asset failures need to be avail-
+able. These datasets will enable the development of new algorithms and the validation of
+existing algorithms for specific applications. Conditionmonitoring data alone is often not
+sufficient for PHM; metadata about the asset, its operating environment, and the external
+covariates that influence its deterioration would also be required. Of particular importance
+is the collection of failure modes and mechanisms for failure events. This data has usually
+been stored in separate systems to the sensor data. The advent of IoT enables these datasets
+to be merged and made available for analysis. Recent moves to develop a global prognostics
+data library will assist in making fit-for-purpose datasets more widely available.
+A common feature of IoT platforms is a focus on open architecture. These open access plat-
+forms enable development of applications by third parties. This transition to open access
+is a paradigm shift for many businesses that have previously relied on proprietary products
+for competitive advantage. A number of international businesses and government groups are
+also now experimenting with open competitions using the platforms Kaggle and Hackathons
+to make datasets available for predictive analytics.
+Although there are challenges to the implementation of IoT-based PHM, most of the issues
+are not insurmountable. Sensors are becoming small enough that they do not interfere with
+the product functions and have connectivity with lower power consumption. To process the
+data, hardware and software support using advanced statistical and machine learning meth-
+ods is improving. Cloud computing capacity and speed have also increased significantly to
+meet the needs. Perhaps the biggest concern is with respect to the security of data.
+18
+The key conclusion is that IoT-based PHM is expected to have significant infuence on the
+implementation of reliability assessment, prediction, and risk mitigation, and create new
+business opportunities.
+19
+References
+[1] Accenture. (Apr. 28, 2015). Hyundai Heavy Industries and Accenture
+to Build Connected Smart Ships. [Online]. Available: https://newsroom.
+accenture.com/news/hyundai-heavy-industries-and-accenture-to-buildconnected-
+smart-ships.htm
+[2] A. K. S. Jardine, D. Lin, and D. Banjevic, “A review on machinery diagnostics and
+prognostics implementing condition-based maintenance,” Mech. Syst. Signal Process.,
+vol. 20, pp. 1483-1510, Oct. 2006.
+[3] Decai Yang- Physics-of-failure-based prognostics and health management for electronic
+products (http://ieeexplore.ieee.org/document/6922862/)
+[4] D. Kwon et al.: IoT-Based PHM for Industrial Applications
+[5] J. Gu and M. Pecht, “Prognostics and health management using physicsof- failure,” in
+Proc. Annu. Rel. Maintainab. Symp., 2008, pp. 481-487.
+[6] M. Pecht, T. Shibutani, M. Kang, M. Hodkiewicz, and E. Cripps, ”A fusion prognostics-
+based qualification test methodology for microelectronic products”, Microelectron. Rel.
+20
+
