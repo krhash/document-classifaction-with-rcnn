@@ -1,0 +1,39 @@
+group 'app.snc'
+version '1.0'
+
+buildscript {
+    dependencies {
+        classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: '8.8.2'
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+
+    }
+}
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    //compile files('src/libs/jfoenix-8.0.1.jar')
+    compile fileTree(dir: 'src/libs', include: ['*.jar'])
+
+}
+
+apply plugin: 'javafx-gradle-plugin'
+
+jfx {
+    // Minimal requirement for jfxJar-task
+    mainClass = 'app.snc.Main'
+
+    // Minimal requirement for jfxNative-task
+    vendor = 'krush'
+}
