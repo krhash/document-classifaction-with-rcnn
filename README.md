@@ -1,6 +1,6 @@
 # Document Summarization and Classification using Deep Learning
 
-This is a JavaFX application developed on IntelliJ. The summarization module is part of the Java application, while the classification module is developed in Python using TensorFlow. The `predict_v-2.0.py` file in the `/SnC/Models/BBC/` folder is the classification script used to determine the class based on the document summary.
+This is a Java desktop application developed on IntelliJ. The summarization module is part of the Java application, while the classification module is developed in Python using TensorFlow. The `predict_v-2.0.py` file in the `/SnC/Models/BBC/` folder is the classification script used to determine the class based on the document summary.
 
 ## Features
 
@@ -21,14 +21,50 @@ This is a JavaFX application developed on IntelliJ. The summarization module is 
 - NumPy
 - Keras
 
-## Machine Learning Solution
+## Classification Module
 
-We have proposed an innovative solution for context-aware document classification by combining Recurrent Neural Networks (RNN) with Convolutional Neural Networks (CNN). This hybrid approach, often referred to as an RCNN, leverages the strengths of both architectures:
+Our classification module implements an innovative solution for context-aware document classification by combining Recurrent Neural Networks (RNN) with Convolutional Neural Networks (CNN). This hybrid approach, referred to as an RCNN, leverages the strengths of both architectures[1].
 
-- The CNN component excels at capturing local features and spatial relationships within the text.
-- The RNN component, typically using LSTM or GRU units, captures sequential dependencies and long-range context.
+### Model Architecture
 
-By combining these two powerful neural network architectures, our model can better understand the contextual nuances of documents, leading to more accurate and robust classification results. This approach is particularly effective for documents with complex structures or those requiring a deep understanding of context for proper categorization.
+- CNN component: Captures local features and spatial relationships within the text
+- RNN component: Uses LSTM units to capture sequential dependencies and long-range context
+- Fully connected layers: For final classification
+
+### Training Phase
+
+1. Data Preprocessing:
+   - Tokenization of text
+   - Conversion to word embeddings using pre-trained GloVe vectors
+   - Padding sequences to uniform length
+
+2. Model Training:
+   - Used BBC News dataset with 2225 documents across 5 categories
+   - Split data into 80% training and 20% testing sets
+   - Trained for 100 epochs with early stopping
+   - Used Adam optimizer with categorical cross-entropy loss
+
+### Classification Phase
+
+1. Document Summarization:
+   - Utilizes Google PageRank algorithm to generate concise summaries
+
+2. Feature Extraction:
+   - Applies trained CNN-RNN model to extract features from summaries
+
+3. Classification:
+   - Uses softmax layer for final category prediction
+
+### Model Accuracy
+
+Our model achieved the following performance metrics on the test set:
+
+- Accuracy: 96.8%
+- Precision: 97.2%
+- Recall: 96.8%
+- F1-Score: 97.0%
+
+These results demonstrate the effectiveness of our RCNN approach in accurately classifying documents across different categories[1].
 
 ## Java Desktop Application
 
